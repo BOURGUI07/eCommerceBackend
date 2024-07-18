@@ -31,7 +31,7 @@ public class LocalUser {
     private Integer id;
     @Column(name="username")
     private String username;
-    @Column(name="password")
+    @Column(name="pass_word")
     private String password;
     @Column(name="email")
     private String email;

@@ -1,0 +1,62 @@
+drop database if exists ecom;
+create database ecom;
+
+use ecom;
+
+drop table if exists localuser;
+create table localuser(
+	user_id integer auto_increment primary key,
+    username varchar(50) not null,
+    pass_word varchar(100) not null,
+    email varchar(100) not null,
+    firstname varchar(100) not null,
+    lastname varchar(100) not null
+);
+
+drop table if exists product;
+create table product(
+	product_id integer auto_increment primary key,
+    productname varchar(50) not null,
+    shortdesc varchar(100) ,
+    longdesc varchar(200) ,
+    price decimal(10,2) not null
+);
+
+drop table if exists address;
+create table address(
+	address_id integer auto_increment primary key,
+    address1 varchar(200) not null,
+    address2 varchar(200) ,
+    city varchar(50) not null,
+    country varchar(60) not null,
+    user_id integer not null,
+    foreign key(user_id) references localuser(user_id)
+);
+
+
+drop table if exists inventory;
+create table inventory(
+	inventory_id integer auto_increment primary key,
+    product_id integer not null,
+    quantity integer not null,
+    foreign key(product_id) references product(product_id)
+);
+
+drop table if exists weborder;
+create table weborder(
+	order_id integer auto_increment primary key,
+    user_id integer not null,
+    address_id integer not null,
+    foreign key(user_id) references localuser(user_id),
+    foreign key(address_id) references address(address_id)
+);
+
+drop table if exists orderdetail;
+create table orderdetail(
+	detail_id integer auto_increment primary key,
+    product_id integer not null,
+    quantity integer not null,
+    order_id integer not null,
+    foreign key(product_id) references product(product_id),
+    foreign key(order_id) references weborder(order_id)
+);

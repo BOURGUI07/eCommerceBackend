@@ -24,10 +24,13 @@ import lombok.Data;
 public class Inventory {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="user_id", nullable=false)
+    @Column(name="inventory_id", nullable=false)
     private Integer id;
     
     @OneToOne
     @JoinColumn(name="product_id")
     private Product product;
+    
+    @Column(name="quantity")
+    private Integer quantity;
 }
