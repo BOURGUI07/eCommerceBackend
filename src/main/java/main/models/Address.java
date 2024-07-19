@@ -35,7 +35,7 @@ public class Address {
     private Integer id;
     @Column(name="address1")
     private String addressLine1;
-    @Column(name="address1")
+    @Column(name="address2")
     private String addressLine2;
     @Column(name="city")
     private String city;

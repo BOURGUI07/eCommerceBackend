@@ -29,11 +29,11 @@ public class LocalUser {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="user_id", nullable=false)
     private Integer id;
-    @Column(name="username")
+    @Column(name="username", unique=true)
     private String username;
     @Column(name="pass_word")
     private String password;
-    @Column(name="email")
+    @Column(name="email", unique=true)
     private String email;
     @Column(name="firstname")
     private String firstName;
