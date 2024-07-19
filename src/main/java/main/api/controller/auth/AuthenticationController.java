@@ -7,6 +7,8 @@ package main.api.controller.auth;
 import jakarta.validation.Valid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import main.api.model.LoginBody;
+import main.api.model.LoginResponse;
 import main.api.model.RegistrationBody;
 import main.exception.UserAlreadyExistsException;
 import main.models.LocalUser;
@@ -38,5 +40,16 @@ public class AuthenticationController {
         } catch (UserAlreadyExistsException ex) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+    
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody body) {
+        String jwt = service.loginUser(body);
+        if (jwt == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        LoginResponse response = new LoginResponse();
+        response.setJwt(jwt);
+        return ResponseEntity.ok(response);
     }
 }
