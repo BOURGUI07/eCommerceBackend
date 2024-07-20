@@ -60,3 +60,43 @@ create table orderdetail(
     foreign key(product_id) references product(product_id),
     foreign key(order_id) references weborder(order_id)
 );
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
+
+use ecom;
+
+INSERT INTO product (productname, shortdesc, longdesc, price) VALUES
+('Wireless Mouse', 'Ergonomic wireless mouse', 'A comfortable, ergonomic wireless mouse with a long battery life and high precision.', 29.99),
+('Mechanical Keyboard', 'RGB backlit keyboard', 'A durable mechanical keyboard with customizable RGB backlighting and tactile switches.', 89.99),
+('Bluetooth Speaker', 'Portable speaker', 'A compact and portable Bluetooth speaker with excellent sound quality and long battery life.', 49.99),
+('Smartphone', 'Latest model smartphone', 'A powerful smartphone with a high-resolution display, advanced camera system, and fast performance.', 699.99),
+('Fitness Tracker', 'Waterproof fitness tracker', 'A waterproof fitness tracker with heart rate monitoring, GPS, and long battery life.', 129.99);
+
+
+INSERT INTO address (address1, address2, city, country, user_id) VALUES
+('123 Main St', 'Apt 4B', 'New York', 'USA', 5),
+('456 Elm St', NULL, 'San Francisco', 'USA', 4);
+
+
+INSERT INTO inventory (product_id, quantity) VALUES
+(1, 100),
+(2, 50),
+(3, 75),
+(4, 200),
+(5, 150);
+
+INSERT INTO weborder (user_id, address_id) VALUES
+(5, 1),
+(4, 2),
+(5, 1),
+(4, 2),
+(5, 1);
+
+INSERT INTO orderdetail (product_id, quantity, order_id) VALUES
+(1, 2, 1),
+(2, 1, 2),
+(3, 3, 3),
+(4, 1, 4),
+(5, 2, 5);
