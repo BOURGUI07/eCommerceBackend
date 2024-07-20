@@ -1,8 +1,11 @@
 package main.service;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,6 +14,7 @@ import java.util.Date;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import main.models.LocalUser;
+import static org.springframework.security.config.Elements.JWT;
 
 @Service
 public class JWTService {
@@ -43,6 +47,25 @@ public class JWTService {
         .setExpiration(new Date(expiryMillis))
         .signWith(secretKey, algorithm)
         .compact();
+    }
+    
+    public String getUsernameFromToken(String token) {
+        try {
+            Jws<Claims> claimsJws = Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .requireIssuer(issuer)
+                .build()
+                .parseClaimsJws(token);
+
+            Claims claims = claimsJws.getBody();
+            return claims.get(USERNAME_KEY, String.class);
+        } catch (SignatureException e) {
+            // Handle invalid signature
+            return null;
+        } catch (Exception e) {
+            // Handle other exceptions
+            return null;
+        }
     }
 }
 

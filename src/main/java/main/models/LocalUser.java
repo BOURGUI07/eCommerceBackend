@@ -4,6 +4,7 @@
  */
 package main.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -32,6 +33,7 @@ public class LocalUser {
     @Column(name="username", unique=true)
     private String username;
     @Column(name="pass_word")
+    @JsonIgnore
     private String password;
     @Column(name="email", unique=true)
     private String email;
@@ -41,6 +43,7 @@ public class LocalUser {
     private String lastName;
     @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE, orphanRemoval=true)
     @JsonManagedReference
+    @JsonIgnore
     private List<Address> addresses = new ArrayList<>();
     
     @OneToMany(mappedBy="user", cascade=CascadeType.REMOVE, orphanRemoval=true)
