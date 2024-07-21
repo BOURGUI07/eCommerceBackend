@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,10 +53,14 @@ public class LocalUser {
     
     @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
     @JsonManagedReference
+    @OrderBy("id desc")
     private List<VerificationToken> verificationTokens = new ArrayList<>();
     
     public void addVerificationToken(VerificationToken token){
         this.verificationTokens.add(token);
     }
+    
+    @Column(name="email_verified", nullable=false)
+    private Boolean emailVerified = false;
     
 }

@@ -4,6 +4,8 @@
  */
 package main.repo;
 
+import java.util.Optional;
+import main.models.LocalUser;
 import main.models.VerificationToken;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
@@ -14,5 +16,6 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface VerificationTokenRepo extends ListCrudRepository<VerificationToken,Integer> {
-    
+    Optional<VerificationToken> findByToken(String token);
+    void deleteByUser(LocalUser user);
 }

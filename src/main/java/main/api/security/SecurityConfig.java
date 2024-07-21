@@ -29,7 +29,7 @@ public class SecurityConfig {
         http.addFilterBefore(filter, AuthorizationFilter.class);
         http
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/api/products","/auth/register","/auth/login").permitAll()
+                    .requestMatchers("/api/products","/auth/register","/auth/login","/auth/verify").permitAll()
                 .anyRequest().authenticated()  // Permit access to all requests
             )
             .csrf(csrf -> csrf.disable());  // Disable CSRF protection
