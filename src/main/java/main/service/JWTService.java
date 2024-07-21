@@ -12,9 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import main.models.LocalUser;
-import static org.springframework.security.config.Elements.JWT;
 
 @Service
 public class JWTService {
@@ -29,6 +27,7 @@ public class JWTService {
     private SecretKey secretKey;
 
     private static final String USERNAME_KEY = "USERNAME";
+    private static final String EMAIL_KEY = "EMAIL";
 
     @PostConstruct
     public void postConstruct() {
@@ -37,10 +36,10 @@ public class JWTService {
     }
 
     public String generateJWT(LocalUser user) {
-    long nowMillis = System.currentTimeMillis();
-    long expiryMillis = nowMillis + expiryInSeconds * 1000;
+        long nowMillis = System.currentTimeMillis();
+        long expiryMillis = nowMillis + expiryInSeconds * 1000;
 
-    return Jwts.builder()
+        return Jwts.builder()
         .setIssuer(issuer)
         .claim(USERNAME_KEY, user.getUsername())
         .setIssuedAt(new Date(nowMillis))
@@ -66,6 +65,19 @@ public class JWTService {
             // Handle other exceptions
             return null;
         }
+    }
+    
+    public String generateVerificationJWT(LocalUser user){
+        long nowMillis = System.currentTimeMillis();
+        long expiryMillis = nowMillis + expiryInSeconds * 1000;
+
+        return Jwts.builder()
+        .setIssuer(issuer)
+        .claim(EMAIL_KEY, user.getEmail())
+        .setIssuedAt(new Date(nowMillis))
+        .setExpiration(new Date(expiryMillis))
+        .signWith(secretKey, algorithm)
+        .compact();
     }
 }
 

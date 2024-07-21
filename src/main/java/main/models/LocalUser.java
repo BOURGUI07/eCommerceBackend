@@ -50,6 +50,12 @@ public class LocalUser {
     @JsonManagedReference
     private List<WebOrder> orders = new ArrayList<>();
     
+    @OneToMany(mappedBy="user", cascade=CascadeType.ALL, orphanRemoval=true)
+    @JsonManagedReference
+    private List<VerificationToken> verificationTokens = new ArrayList<>();
     
+    public void addVerificationToken(VerificationToken token){
+        this.verificationTokens.add(token);
+    }
     
 }
