@@ -23,7 +23,7 @@ public class SecurityConfig {
     public SecurityConfig(JWTRequestFilter filter) {
         this.filter = filter;
     }
-    private JWTRequestFilter filter;
+    private final JWTRequestFilter filter;
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.addFilterBefore(filter, AuthorizationFilter.class);

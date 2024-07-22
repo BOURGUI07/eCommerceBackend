@@ -4,6 +4,9 @@
  */
 package main.api.controller.auth;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -37,6 +40,12 @@ public class AuthenticationController {
         this.service = service;
     }
     private final UserService service;
+    @Operation(summary="Register a User")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="201", description="User Created Sucessfully"),
+        @ApiResponse(responseCode="409", description="User Already Exists"),
+        @ApiResponse(responseCode="500", description="Email Failure")
+    })
     @PostMapping("/register")
     public ResponseEntity<LocalUser> registerUser(@Valid @RequestBody RegistrationBody registrationBody){
         try {
@@ -49,6 +58,13 @@ public class AuthenticationController {
     }
     
     @PostMapping("/login")
+    @Operation(summary="Login a User")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="200", description="User Logged In Sucessfully"),
+        @ApiResponse(responseCode="400", description="User Token is Null"),
+        @ApiResponse(responseCode="500", description="Email Failure"),
+        @ApiResponse(responseCode="403", description="User No Verified")
+    })
     public ResponseEntity<LoginResponse> loginUser(@Valid @RequestBody LoginBody body) {
         String jwt=null;
         try{
@@ -80,6 +96,11 @@ public class AuthenticationController {
     }
     
     @PostMapping("/verify")
+    @Operation(summary="Verify a User Email")
+    @ApiResponses(value={
+        @ApiResponse(responseCode="204", description="User Email Sucessfully Verified"),
+        @ApiResponse(responseCode="409", description="User Already Exists")
+    })
     public ResponseEntity verifyEmail(String token){
         if(service.verifyUser(token)){
             return ResponseEntity.ok().build();
